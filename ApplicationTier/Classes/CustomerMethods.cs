@@ -43,6 +43,23 @@ namespace ApplicationTier.Classes
             return Mapper(customer);
         }
 
+        public async Task<CustomerDto> DeleteCustomer(int CustomerId)
+        {
+            var context = new IndustryConnectWeek2Context();
+
+            var customer = await context.Customers.FirstOrDefaultAsync(c => c.Id == CustomerId);
+
+            if (customer != null)
+            {
+                context.Remove(customer);
+                await context.SaveChangesAsync();
+                return Mapper(customer);
+            }
+           
+            throw new Exception("Customer record not found");
+
+        }
+
 
         private static CustomerDto Mapper(Customer? customer)
         {
